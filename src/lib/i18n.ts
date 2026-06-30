@@ -47,6 +47,7 @@ const messages: Record<Locale, Record<string, string>> = {
     'think.max': '最深思考',
     'think.providerIgnored': '当前供应商可能不支持 thinking 设置',
     'input.shortcutHint': '⏎ 发送 · {mod}⏎ 换行',
+    'input.shortcutHintMod': '{mod}⏎ 发送 · ⏎ 换行',
 
     // MessageBubble
     'msg.thinking': '思考中...',
@@ -348,6 +349,9 @@ const messages: Record<Locale, Record<string, string>> = {
     'settings.system': '跟随系统',
     'settings.language': '语言',
     'settings.defaultModel': '默认模型',
+    'settings.submitMode': '提交方式',
+    'settings.submitMode.enter': 'Enter 发送',
+    'settings.submitMode.modEnter': '{mod}Enter 发送',
     'feedback.title': '提交反馈',
     'feedback.subtitle': '遇到问题或想提建议？直接告诉我们。描述会连同应用版本、系统信息一起发送给开发团队，帮助我们更快定位问题。',
     'feedback.descriptionLabel': '问题描述',
@@ -776,6 +780,7 @@ const messages: Record<Locale, Record<string, string>> = {
     'think.max': 'Think Max',
     'think.providerIgnored': 'This provider may not support thinking settings',
     'input.shortcutHint': '⏎ Send · {mod}⏎ New line',
+    'input.shortcutHintMod': '{mod}⏎ Send · ⏎ New line',
 
     // MessageBubble
     'msg.thinking': 'Thinking...',
@@ -1077,6 +1082,9 @@ const messages: Record<Locale, Record<string, string>> = {
     'settings.system': 'System',
     'settings.language': 'Language',
     'settings.defaultModel': 'Default Model',
+    'settings.submitMode': 'Submit Mode',
+    'settings.submitMode.enter': 'Enter to Send',
+    'settings.submitMode.modEnter': '{mod}Enter to Send',
     'feedback.title': 'Submit Feedback',
     'feedback.subtitle': 'Found a bug or have a suggestion? Tell us directly. Your description will be sent to the dev team along with app version and system info to help us diagnose faster.',
     'feedback.descriptionLabel': 'Describe the issue',

@@ -1,5 +1,5 @@
 import { useRef, useCallback, useState } from 'react';
-import { useSettingsStore, ColorTheme } from '../../stores/settingsStore';
+import { useSettingsStore, ColorTheme, type SubmitMode } from '../../stores/settingsStore';
 import { useProviderStore } from '../../stores/providerStore';
 import { useT } from '../../lib/i18n';
 import { AiAvatar } from '../shared/AiAvatar';
@@ -73,10 +73,12 @@ export function GeneralTab() {
   const locale = useSettingsStore((s) => s.locale);
   const selectedModel = useSettingsStore((s) => s.selectedModel);
   const fontSize = useSettingsStore((s) => s.fontSize);
+  const submitMode = useSettingsStore((s) => s.submitMode);
   const setTheme = useSettingsStore((s) => s.setTheme);
   const setColorTheme = useSettingsStore((s) => s.setColorTheme);
   const setLocale = useSettingsStore((s) => s.setLocale);
   const setSelectedModel = useSettingsStore((s) => s.setSelectedModel);
+  const setSubmitMode = useSettingsStore((s) => s.setSubmitMode);
   const setFontSize = useSettingsStore((s) => s.setFontSize);
   const aiAvatarUrl = useSettingsStore((s) => s.aiAvatarUrl);
   const setAiAvatarUrl = useSettingsStore((s) => s.setAiAvatarUrl);
@@ -245,6 +247,27 @@ export function GeneralTab() {
                   }`}
               >
                 {l === 'zh' ? '中文' : 'EN'}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Submit Mode */}
+        <div>
+          <h3 className="text-[13px] font-medium text-text-primary mb-2">{t('settings.submitMode')}</h3>
+          <div className="inline-flex rounded-lg border border-border-subtle overflow-hidden">
+            {(['enter', 'modEnter'] as SubmitMode[]).map((m) => (
+              <button
+                key={m}
+                onClick={() => setSubmitMode(m)}
+                className={`py-1.5 px-3 text-[13px] font-medium transition-smooth
+                  border-r border-border-subtle last:border-r-0 whitespace-nowrap
+                  ${submitMode === m
+                    ? 'bg-accent/10 text-accent'
+                    : 'text-text-muted hover:bg-bg-secondary'
+                  }`}
+              >
+                {t(`settings.submitMode.${m}`)}
               </button>
             ))}
           </div>

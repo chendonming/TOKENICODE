@@ -264,6 +264,7 @@ export function InputBar() {
   const workingDirectory = useSettingsStore((s) => s.workingDirectory);
   const selectedModel = useSettingsStore((s) => s.selectedModel);
   const sessionMode = useSettingsStore((s) => s.sessionMode);
+  const submitMode = useSettingsStore((s) => s.submitMode);
   const handlePlanApprove = useCallback(async () => {
     const tabId = useSessionStore.getState().selectedSessionId;
     if (!tabId) return;
@@ -1406,6 +1407,23 @@ export function InputBar() {
     // stuck true and permanently blocking Enter. See issue #66.
     if (e.isComposing || e.keyCode === 229) return;
 
+    // --- Mode 2: Cmd/Ctrl+Enter submits, plain Enter = newline ---
+    if (submitMode === 'modEnter') {
+      if (e.metaKey || e.ctrlKey) {
+        // Cmd/Ctrl+Enter → send message
+        if (isStopping) {
+          e.preventDefault();
+          return true;
+        }
+        e.preventDefault();
+        handleSubmit();
+        return true;
+      }
+      // Plain Enter or Shift+Enter → let tiptap handle (inserts newline / hard break)
+      return false;
+    }
+
+    // --- Mode 1 (default): Enter submits, Cmd/Ctrl+Enter = newline ---
     const keyTabState = getActiveTabState();
     const pendingInteraction = keyTabState.messages.find(
       (m: import('../../stores/chatStore').ChatMessage) => ['permission', 'question', 'plan_review'].includes(m.type) && !m.resolved,
@@ -1574,7 +1592,7 @@ export function InputBar() {
             <span className="flex-shrink-0 text-[10px] text-text-tertiary/50
               group-focus-within/input:hidden select-none whitespace-nowrap
               self-center mr-1">
-              {t('input.shortcutHint')}
+              {submitMode === 'modEnter' ? t('input.shortcutHintMod') : t('input.shortcutHint')}
             </span>
           )}
           {/* Stop button — visible only while running */}

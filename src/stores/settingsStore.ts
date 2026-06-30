@@ -20,6 +20,7 @@ export type SessionMode = 'code' | 'ask' | 'plan' | 'bypass';
 /** CLI permission mode for the SDK control protocol */
 export type CliPermissionMode = 'acceptEdits' | 'default' | 'plan' | 'bypassPermissions';
 export type Locale = 'zh' | 'en';
+export type SubmitMode = 'enter' | 'modEnter';
 
 /** Map frontend session mode to CLI permission mode */
 export function mapSessionModeToPermissionMode(mode: SessionMode): CliPermissionMode {
@@ -90,6 +91,8 @@ interface SettingsState {
   userDisplayName: string;
   /** Whether to show dotfiles (hidden files) in the file tree */
   showHiddenFiles: boolean;
+  /** Submit key behavior: 'enter' = Enter submits, Ctrl/Cmd+Enter newline; 'modEnter' = reversed */
+  submitMode: SubmitMode;
 
   toggleTheme: () => void;
   setTheme: (theme: Theme) => void;
@@ -121,6 +124,7 @@ interface SettingsState {
   setUserAvatarUrl: (url: string) => void;
   setUserDisplayName: (name: string) => void;
   toggleHiddenFiles: () => void;
+  setSubmitMode: (mode: SubmitMode) => void;
 }
 
 // --- Theme cycle order ---
@@ -163,6 +167,7 @@ export const useSettingsStore = create<SettingsState>()(
       userAvatarUrl: '',
       userDisplayName: '',
       showHiddenFiles: false,
+      submitMode: 'enter' as SubmitMode,
 
       toggleTheme: () =>
         set((state) => ({ theme: nextTheme(state.theme) })),
@@ -263,6 +268,8 @@ export const useSettingsStore = create<SettingsState>()(
         set(() => ({ userDisplayName: name.slice(0, 20) })),
       toggleHiddenFiles: () =>
         set((state) => ({ showHiddenFiles: !state.showHiddenFiles })),
+      setSubmitMode: (mode) =>
+        set(() => ({ submitMode: mode })),
     }),
     {
       name: 'tokenicode-settings',
@@ -348,6 +355,7 @@ export const useSettingsStore = create<SettingsState>()(
         userAvatarUrl: state.userAvatarUrl,
         userDisplayName: state.userDisplayName,
         showHiddenFiles: state.showHiddenFiles,
+        submitMode: state.submitMode,
       }),
     },
   ),
